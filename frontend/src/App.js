@@ -1,23 +1,81 @@
-import React, { useEffect, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+
+import  CommonLayout  from "./components/layouts/CommonLayout"
+import Home from "./components/pages/Home"
+import { SignIn } from "./components/pages/SignIn"
+import { SignUp } from "./components/pages/SignUp"
+
+import { getCurrentUser } from "./lib/api/auth"
 import { execTest } from "./lib/api/test"
 
+
+export const AuthContext = createContext()
+
+
 const App = () => {
-  const [message, setMessage] = useState("")
+  // const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
 
-  const handleExecTest = async() => {
-    const res = await execTest()
+  const handleGetCurrentUser = async () => {
+    try {
+      const res = await getCurrentUser();
 
-    if (res.status === 200) {
-      setMessage(res.data.message)
+      if (res?.data.isLogin === true) {
+        setIsSignedIn(true);
+        setCurrentUser(res?.data.data);
+        console.log(res?.data.data);
+      } else {
+        console.log("no current user");
+      }
+    } catch (e) {
+      console.log(e);
     }
-  }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    handleExecTest()
-  },[])
+    handleGetCurrentUser();
+  }, [setCurrentUser]);
 
+  const Private = ({ children }) => {
+    if (!loading) {
+      if (isSignedIn) {
+        return children;
+      } else {
+        return <Navigate to="signin" />;
+      }
+    } else {
+      return <></>;
+    }
+  };
   return (
-    <h1>{message}</h1>
+    <>
+      <BrowserRouter>
+        <AuthContext.Provider
+          value={{
+            loading,
+            setLoading,
+            isSignedIn,
+            setIsSignedIn,
+            currentUser,
+            setCurrentUser,
+          }}
+        >
+        <CommonLayout>
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+
+              <Route path="/" element={<Home />} />
+
+          </Routes>
+        </CommonLayout>
+      </AuthContext.Provider>
+      </BrowserRouter>
+    </>
   );
 }
 
