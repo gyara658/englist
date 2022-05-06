@@ -2,18 +2,18 @@ import client from "./client"
 import Cookies from "js-cookie"
 
 // サインアップ
-export const signUp = (params) => {
-  return client.post("/auth", params);
+export const signUp = (data) => {
+  return client.post("auth", data);
 };
 
 // サインイン
-export const signIn = (params) => {
-  return client.post("/auth/sign_in", params);
+export const signIn = (data) => {
+  return client.post("auth/sign_in", data);
 };
 
 // サインアウト
 export const signOut = () => {
-  return client.delete("/auth/sign_out",{
+  return client.delete("auth/sign_out",{
     headers: {
       "access-token": Cookies.get("_access_token"),
       "client": Cookies.get("_client"),

@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"
+import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import { Typography } from "@material-ui/core"
@@ -12,16 +12,14 @@ import Button from "@material-ui/core/Button"
 import Box from "@material-ui/core/Box"
 
 
-import { signIn } from "../../lib/api/auth";
-import { AuthContext } from "../../App";
+import { signIn } from "../../lib/api/auth"
+import { AuthContext } from "../../App"
 import  AlertMessage  from "../utils/AlertMessage"
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    marginTop: theme.spacing(6)
-  },
   submitBtn: {
-    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    textAlign: "right",
     flexGrow: 1,
     textTransform: "none"
   },
@@ -40,8 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-
-export const SignIn = () => {
+const SignIn = () => {
   const classes = useStyles()
   const history = useNavigate()
 
@@ -51,25 +48,17 @@ export const SignIn = () => {
   const [password, setPassword] = useState("");
   const [alertMessageOpen, setAlertMessageOpen] = useState(false)
 
-
-  const generateParams = () => {
-    const signInParams = {
-      email: email,
-      password: password,
-    };
-    return signInParams;
-  };
-
-  const handleSignInSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const params = {
+    const data = {
       email: email,
       password: password
     }
-    
+
     try {
-      const res = await signIn(params);
+      const res = await signIn(data);
+
       if (res.status === 200) {
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
@@ -79,17 +68,21 @@ export const SignIn = () => {
         setCurrentUser(res.data.data);
 
         history.push("/");
+
+        console.log("Signed in successfully!")
+      } else {
+        setAlertMessageOpen(true)
       }
     } catch (e) {
       console.log(e);
+      setAlertMessageOpen(true)
     }
   };
+
   return (
     <>
-      <p>サインインページです</p>
       <form noValidate autoComplete="off">
       <Card className={classes.card}>
-
         <CardHeader className={classes.header} title="Sign In" />
           <CardContent>
           <TextField
@@ -113,18 +106,17 @@ export const SignIn = () => {
             autoComplete="current-password"
             onChange={event => setPassword(event.target.value)}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            fullWidth
-            color="default"
-            disabled={!email || !password ? true : false} // 空欄があった場合はボタンを押せないように
-            className={classes.submitBtn}
-            onClick={handleSignInSubmit}
-          >
-            Submit
-          </Button>
+          <Box className={classes.submitBtn} >
+            <Button
+              type="submit"
+              variant="outlined"
+              color="primary"
+              disabled={!email || !password ? true : false}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Box>
           <Box textAlign="center" className={classes.box}>
               <Typography variant="body2">
                 Don't have an account? &nbsp;
@@ -148,31 +140,3 @@ export const SignIn = () => {
 
 
 export default SignIn
-
-
-// <form>
-//   <div>
-//     <label htmlFor="email">メールアドレス</label>
-//     <input
-//       type="email"
-//       id="email"
-//       name="email"
-//       value={email}
-//       onChange={(e) => setEmail(e.target.value)}
-//     />
-//   </div>
-//   <div>
-//     <label htmlFor="password">パスワード</label>
-//     <input
-//       type="password"
-//       id="password"
-//       name="password"
-//       value={password}
-//       onChange={(e) => setPassword(e.target.value)}
-//     />
-//   </div>
-//   <button type="submit" onClick={(e) => handleSignInSubmit(e)}>
-//     Submit
-//   </button>
-// </form>
-// <Link to="/signup">サインアップへ</Link>

@@ -10,6 +10,10 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import PersonIcon from "@material-ui/icons/Person"
+import SearchIcon from "@material-ui/icons/Search"
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble"
 
 import { signOut } from "../../lib/api/auth"
 
@@ -25,7 +29,8 @@ const useStyles =makeStyles((theme: Theme) => ({
     color: "inherit"
   },
   linkBtn: {
-    textTransform: "none"
+    textTransform: "none",
+    marginLeft: theme.spacing(1)
   }
 }))
 
@@ -34,7 +39,7 @@ const useStyles =makeStyles((theme: Theme) => ({
     const classes = useStyles()
     const histroy = useNavigate()
 
-    const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSignOut = async (e) => {
       try {
         const res = await signOut()
 
@@ -62,24 +67,24 @@ const useStyles =makeStyles((theme: Theme) => ({
     if (!loading) {
       if (isSignedIn) {
         return (
-          <Button
-            color="inherit"
-            className={classes.linkBtn}
-            onClick={handleSignOut}
-          >
-            サインアウト
-          </Button>
+            <Button
+              color="inherit"
+              className={classes.linkBtn}
+              onClick={handleSignOut}
+            >
+              サインアウト
+            </Button>
         )
       } else {
         return (
-          <Button
-            component={Link}
-            to="/signin"
-            color="inherit"
-            className={classes.linkBtn}
-          >
-            サインイン
-          </Button>
+            <Button
+              component={Link}
+              to="/signin"
+              color="inherit"
+              className={classes.linkBtn}
+            >
+              サインイン
+            </Button>
         )
       }
     } else {
@@ -96,15 +101,15 @@ const useStyles =makeStyles((theme: Theme) => ({
             className={classes.iconButton}
             color="inherit"
           >
-            <MenuIcon />
-          </IconButton>
+          <MenuIcon />
+        </IconButton>
           <Typography
             component={Link}
-            to="/"
+            to="/users"
             variant="h6"
             className={classes.title}
           >
-            Sample
+            Englishlist
           </Typography>
           <AuthButtons />
         </Toolbar>

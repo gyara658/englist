@@ -1,6 +1,6 @@
-import Cookies from "js-cookie"
 import React, { useContext, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import { makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
@@ -9,17 +9,16 @@ import CardContent from "@material-ui/core/CardContent"
 import CardHeader from "@material-ui/core/CardHeader"
 import Button from "@material-ui/core/Button"
 
-import { signUp } from "../../lib/api/auth"
 import { AuthContext } from "../../App"
 import  AlertMessage  from "../utils/AlertMessage"
+import { signUp } from "../../lib/api/auth"
+
 
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    marginTop: theme.spacing(6)
-  },
-  submitBtn: {
-    marginTop: theme.spacing(2),
+  csubmitBtn: {
+    paddingTop: theme.spacing(2),
+    textAlign: "right",
     flexGrow: 1,
     textTransform: "none"
   },
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-export const SignUp = () => {
+const SignUp = () => {
   const classes = useStyles()
   const history = useNavigate()
 
@@ -42,12 +41,13 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [alertMessageOpen, setAlertMessageOpen] = useState(false)
-  // const confirmSuccessUrl = "http://localhost:3000";
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleSubmit = async (e) => {
+
     e.preventDefault()
 
-    const params: SignUpParams = {
+    const data = {
       name: name,
       email: email,
       password: password,
@@ -55,12 +55,10 @@ export const SignUp = () => {
     }
 
     try {
-      const res = await signUp(params)
+      const res = await signUp(data)
       console.log(res)
 
       if (res.status === 200) {
-        // アカウント作成と同時にログインさせてしまう
-        // 本来であればメール確認などを挟むべきだが、今回はサンプルなので
         Cookies.set("_access_token", res.headers["access-token"])
         Cookies.set("_client", res.headers["client"])
         Cookies.set("_uid", res.headers["uid"])
@@ -85,10 +83,9 @@ export const SignUp = () => {
       <h1>サインアップページです</h1>
       <form noValidate autoComplete="off">
       <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Sign Up" />
-      <CardContent>
-
-      <TextField
+        <CardHeader className={classes.header} title="Sign Up" />
+        <CardContent>
+          <TextField
             variant="outlined"
             required
             fullWidth
@@ -128,18 +125,20 @@ export const SignUp = () => {
             autoComplete="current-password"
             onChange={event => setPasswordConfirmation(event.target.value)}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            fullWidth
-            color="default"
-            disabled={!name || !email || !password || !passwordConfirmation ? true : false}
-            className={classes.submitBtn}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
+          <div style={{ textAlign: "right"}} >
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              fullWidth
+              color="default"
+              disabled={!name || !email || !password || !passwordConfirmation ? true : false}
+              className={classes.submitBtn}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </form>
@@ -147,53 +146,11 @@ export const SignUp = () => {
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
-        message="Invalid emai or password"
+        message="Invalid email or password"
       />
         <Link to="/signin">サインインへ</Link>
-
-
-
     </>
   )
 }
 
-// <label htmlFor="email">メールアドレス</label>
-// <input
-//   type="email"
-//   id="email"
-//   name="email"
-//   value={email}
-//   onChange={(e) => setEmail(e.target.value)}
-// />
-
-// <div>
-//   <label htmlFor="password">パスワード</label>
-//   <input
-//     type="password"
-//     id="password"
-//     name="password"
-//     value={password}
-//     onChange={(e) => setPassword(e.target.value)}
-//   />
-// </div>
-// <div>
-//   <label htmlFor="password_confirmation">パスワード確認</label>
-//   <input
-//     type="password"
-//     id="password_confirmation"
-//     name="password_confirmation"
-//     value={passwordConfirmation}
-//     onChange={(e) => setPasswordConfirmation(e.target.value)}
-//   />
-// </div>
-// <div>
-//   <input
-//     type="hidden"
-//     id="confirm_success_url"
-//     name="confirm_success_url"
-//     value={confirmSuccessUrl}
-//   />
-// </div>
-// <button type="submit" onClick={(e) => handleSignUpSubmit(e)}>
-//   Submit
-// </button>
+export default SignUp

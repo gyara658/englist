@@ -3,15 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 import  CommonLayout  from "./components/layouts/CommonLayout"
 import Home from "./components/pages/Home"
-import { SignIn } from "./components/pages/SignIn"
-import { SignUp } from "./components/pages/SignUp"
+import SignIn from "./components/pages/SignIn"
+import SignUp from "./components/pages/SignUp"
 
 import { getCurrentUser } from "./lib/api/auth"
 import { execTest } from "./lib/api/test"
 
 
 export const AuthContext = createContext()
-
 
 const App = () => {
   // const [message, setMessage] = useState("")
@@ -22,11 +21,11 @@ const App = () => {
   const handleGetCurrentUser = async () => {
     try {
       const res = await getCurrentUser();
+      console.log(res)
 
-      if (res?.data.isLogin === true) {
+      if (res?.status === 200) {
         setIsSignedIn(true);
-        setCurrentUser(res?.data.data);
-        console.log(res?.data.data);
+        setCurrentUser(res?.data.currentUser);
       } else {
         console.log("no current user");
       }
@@ -68,9 +67,7 @@ const App = () => {
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-
-              <Route path="/" element={<Home />} />
-
+            <Route path="/" element={<Home />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
