@@ -1,6 +1,11 @@
 import React, { useContext } from "react"
+import { Routes, Route, Navigate, Link } from "react-router-dom"
 
 import { AuthContext } from "../../App"
+
+
+import Description from "./wordlist/Description"
+import List from "./wordlist/List"
 
 const Home = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)
@@ -18,6 +23,11 @@ const Home = () => {
           <h1>Not signed in</h1>
         )
       }
+
+
+        <Link to="/list">List</Link>
+
+
     </>
   )
 }

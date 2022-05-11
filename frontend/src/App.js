@@ -5,6 +5,12 @@ import  CommonLayout  from "./components/layouts/CommonLayout"
 import Home from "./components/pages/Home"
 import SignIn from "./components/pages/SignIn"
 import SignUp from "./components/pages/SignUp"
+import NotFound from "./components/pages/NotFound"
+import List from "./components/pages/wordlist/List"
+import Ngsl from "./components/pages/wordlist/Ngsl"
+import Nawl from "./components/pages/wordlist/Nawl"
+import Tsl from "./components/pages/wordlist/Tsl"
+
 
 import { getCurrentUser } from "./lib/api/auth"
 import { execTest } from "./lib/api/test"
@@ -65,9 +71,14 @@ const App = () => {
         >
         <CommonLayout>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/" element={<Home />} />
+            <Route path="list/*" element={<List />} />
+              <Route path="list/ngsl" element={<Ngsl />} />
+              <Route path="list/nawl" element={<Nawl />} />
+              <Route path="list/tsl" element={<Tsl />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
