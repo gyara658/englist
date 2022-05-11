@@ -68,6 +68,8 @@ const useStyles =makeStyles((theme: Theme) => ({
       if (isSignedIn) {
         return (
             <Button
+              component={Link}
+              to="/home"
               color="inherit"
               className={classes.linkBtn}
               onClick={handleSignOut}

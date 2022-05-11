@@ -67,7 +67,7 @@ const SignIn = () => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/");
+        history("/home");
 
         console.log("Signed in successfully!")
       } else {

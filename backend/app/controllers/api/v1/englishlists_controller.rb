@@ -1,6 +1,6 @@
 class Api::V1::EnglishlistsController < ApplicationController
   def index
-    @wordlist = englishlist.all
-    render json: @wordlist
+    @wordlist = Englishlist.all
+    render json: { status: 200, wordlist: @wordlist }
   end
 end
