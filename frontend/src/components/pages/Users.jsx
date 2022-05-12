@@ -17,6 +17,13 @@ import  AlertMessage  from "../utils/AlertMessage"
 import { getUsers } from "../../lib/api/auth"
 import { AuthContext } from "../../App"
 
+const useStyles = makeStyles((theme: Theme) => ({
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10)
+  }
+}))
+
 const Users = () => {
   const { currentUser } = useContext(AuthContext)
   const classes = useStyles()

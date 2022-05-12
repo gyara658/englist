@@ -1,13 +1,14 @@
 import React from "react"
-import { Link }  from "react-router-dom"
+import Wordcard from "./Wordcard"
+
 
 const Tsl = () => {
-    return (
-      <>
-        <p>TSLページです</p>
-        <Link to="/list">・Listページに戻る</Link>
-      </>
-      )
+  const wtype = "TSL"
+  return (
+    <>
+      <Wordcard wtype={wtype} />
+    </>
+  )
 }
 
 export default Tsl
