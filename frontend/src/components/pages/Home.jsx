@@ -1,11 +1,7 @@
 import React, { useContext } from "react"
-import { Routes, Route, Navigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import { AuthContext } from "../../App"
-
-
-import Description from "./wordlist/Description"
-import List from "./wordlist/List"
 
 const Home = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)

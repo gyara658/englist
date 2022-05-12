@@ -1,11 +1,11 @@
 import React from "react"
-import { Link }  from "react-router-dom"
+import Wordcard from "./Wordcard"
 
 const Nawl = () => {
+  const wtype = "NAWL"
   return (
     <>
-      <p>NAWLページです</p>
-      <Link to="/list">・Listページに戻る</Link>
+      <Wordcard wtype={wtype} />
     </>
   )
 }

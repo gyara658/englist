@@ -20,9 +20,6 @@ import { signOut } from "../../lib/api/auth"
 import { AuthContext } from "../../App"
 
 const useStyles =makeStyles((theme: Theme) => ({
-  IconButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
     textDecoration: "none",
@@ -98,17 +95,10 @@ const useStyles =makeStyles((theme: Theme) => ({
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.iconButton}
-            color="inherit"
-          >
-          <MenuIcon />
-        </IconButton>
           <Typography
             component={Link}
-            to="/users"
-            variant="h6"
+            to="/"
+            variant="h5"
             className={classes.title}
           >
             Englishlist

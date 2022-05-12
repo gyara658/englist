@@ -50,7 +50,7 @@ const App = () => {
       if (isSignedIn) {
         return children;
       } else {
-        return <Navigate to="signin" />;
+        return <Navigate to="/signin" />;
       }
     } else {
       return <></>;
@@ -70,8 +70,12 @@ const App = () => {
           }}
         >
         <CommonLayout>
+          <Private>
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </Private>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="list/*" element={<List />} />
