@@ -12,6 +12,8 @@ import Nawl from "./components/pages/wordlist/Nawl"
 import Tsl from "./components/pages/wordlist/Tsl"
 
 
+import Swipe from "./swipe"
+
 import { getCurrentUser } from "./lib/api/auth"
 import { execTest } from "./lib/api/test"
 
@@ -70,15 +72,13 @@ const App = () => {
           }}
         >
         <CommonLayout>
-          <Private>
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </Private>
+
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="list/*" element={<List />} />
+            <Route path="/swipe" element={<Swipe />} />
               <Route path="list/ngsl" element={<Ngsl />} />
               <Route path="list/nawl" element={<Nawl />} />
               <Route path="list/tsl" element={<Tsl />} />
