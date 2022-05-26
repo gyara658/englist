@@ -1,24 +1,19 @@
-import React, { useState, useMemo, useRef, useReducer, useEffect } from 'react'
-import { Link }  from "react-router-dom"
-import TinderCard from "react-tinder-card";
+import React, { useState, useEffect } from 'react'
+
 import "./TinderCards.css";
 
-import {
-  initialState,
-  wordsActionTypes,
-  wordsReducer
-} from "../../../reducers/wordtype"
-
-import { getEnglishlist } from "../../../lib/api/englishlist"
+import Button from '@material-ui/core/Button';
 
 import ReactCardFlip from 'react-card-flip';
+import { createMyLists } from "../../../lib/api/mylists"
 
 const SwipeCard = (props) => {
   const {words} = props
-  let count = 0
+  const [count, setCount] = useState(0)
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [targetWord, setTargetWord] = useState(words)
+  const [lists, setLists] = useState([])
 
   const flipCard = () => {
     setIsFlipped(!isFlipped);
@@ -27,11 +22,24 @@ const SwipeCard = (props) => {
   useEffect(() => {
     setTargetWord(words)
   }, [targetWord])
-  console.log(targetWord)
+
+
+  const handleSubmit = async (count) => {
+    count.preventDefault()
+
+
+    const res = await createMyLists(count)
+    console.log(res)
+
+    if (res.status === 200) {
+      setLists([...lists,])
+    }
+  }
+
 
   return (
     <>
-      { targetWord ?
+      { targetWord.length > 0 ?
         <div className="card">
           <ReactCardFlip isFlipped={isFlipped}  flipSpeedFrontToBack={1.0}
             flipSpeedBackToFront={1.0} flipDirection="vertical" infinite="true" width="300px">
@@ -60,7 +68,9 @@ const SwipeCard = (props) => {
               </ul>
             </div>
           </ReactCardFlip>
-        </div> : <p>Now Loading!</p>}
+          <button onClick={() => setCount(count + 1)}>Next Word!</button>
+        </div>
+        : <p>Now Loading!</p>}
     </>
     )
 }

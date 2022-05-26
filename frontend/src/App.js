@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 import  CommonLayout  from "./components/layouts/CommonLayout"
 import Home from "./components/pages/Home"
+
 import SignIn from "./components/pages/SignIn"
 import SignUp from "./components/pages/SignUp"
 import NotFound from "./components/pages/NotFound"
@@ -11,8 +12,6 @@ import Ngsl from "./components/pages/wordlist/Ngsl"
 import Nawl from "./components/pages/wordlist/Nawl"
 import Tsl from "./components/pages/wordlist/Tsl"
 
-
-import Swipe from "./swipe"
 
 import { getCurrentUser } from "./lib/api/auth"
 import { execTest } from "./lib/api/test"
@@ -47,17 +46,38 @@ const App = () => {
     handleGetCurrentUser();
   }, [setCurrentUser]);
 
+  // const Private = ({ children }) => {
+  //   if (!loading) {
+  //     if (isSignedIn) {
+  //       return children;
+  //     } else {
+  //       return <Navigate to="/signin" />;
+  //     }
+  //   } else {
+  //     return <></>;
+  //   }
+  // };
+
   const Private = ({ children }) => {
     if (!loading) {
       if (isSignedIn) {
-        return children;
+        return (
+          <Route>
+            {children}
+          </Route>
+        )
       } else {
-        return <Navigate to="/signin" />;
+        return (
+          <Route>
+            <SignIn />
+          </Route>
+        )
       }
     } else {
       return <></>;
     }
   };
+
   return (
     <>
       <BrowserRouter>
@@ -72,13 +92,11 @@ const App = () => {
           }}
         >
         <CommonLayout>
-
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="list/*" element={<List />} />
-            <Route path="/swipe" element={<Swipe />} />
               <Route path="list/ngsl" element={<Ngsl />} />
               <Route path="list/nawl" element={<Nawl />} />
               <Route path="list/tsl" element={<Tsl />} />

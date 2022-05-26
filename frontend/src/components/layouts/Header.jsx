@@ -58,38 +58,60 @@ const useStyles =makeStyles((theme: Theme) => ({
       }
     }
 
-  const AuthButtons = () => {
-    // 認証完了後はサインアウト用のボタンを表示
-    // 未認証時は認証用のボタンを表示
-    if (!loading) {
-      if (isSignedIn) {
-        return (
-            <Button
-              component={Link}
-              to="/home"
-              color="inherit"
-              className={classes.linkBtn}
-              onClick={handleSignOut}
-            >
-              サインアウト
-            </Button>
-        )
+    const AuthButtons = () => {
+      if (!loading) {
+        if (isSignedIn) {
+          return (
+            <>
+              <IconButton
+                component={Link}
+                to="/users"
+                edge="start"
+                className={classes.linkBtn}
+                color="inherit"
+              >
+                <SearchIcon />
+              </IconButton>
+              <IconButton
+                component={Link}
+                to="/chat_rooms"
+                edge="start"
+                className={classes.linkBtn}
+                color="inherit"
+              >
+                <ChatBubbleIcon />
+              </IconButton>
+              <IconButton
+                component={Link}
+                to="/home"
+                edge="start"
+                className={classes.linkBtn}
+                color="inherit"
+              >
+                <PersonIcon />
+              </IconButton>
+            </>
+          )
+        } else {
+          return (
+            <>
+              <IconButton
+                component={Link}
+                to="/signin"
+                edge="start"
+                className={classes.linkBtn}
+                color="inherit"
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            </>
+          )
+        }
       } else {
-        return (
-            <Button
-              component={Link}
-              to="/signin"
-              color="inherit"
-              className={classes.linkBtn}
-            >
-              サインイン
-            </Button>
-        )
+        return <></>
       }
-    } else {
-      return <></>
     }
-  }
+
 
   return (
     <>
