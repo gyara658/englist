@@ -14,27 +14,25 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder"
 
 import  AlertMessage  from "../utils/AlertMessage"
 
-import { getUsers } from "../../lib/api/auth"
+import { getUsers } from "../../lib/api/users"
 import { AuthContext } from "../../App"
 
-const useStyles = makeStyles((theme: Theme) => ({
-  avatar: {
-    width: theme.spacing(10),
-    height: theme.spacing(10)
-  }
-}))
 
 const Users = () => {
   const { currentUser } = useContext(AuthContext)
   const classes = useStyles()
 
   const initialUserState = {
-    id: 0,
-    uid: "",
-    provider: "",
-    email: "",
-    name: "",
-  }
+      id: 0,
+      uid: "",
+      email: "",
+      name: "",
+      image: {
+        url: ""
+      },
+      profile: "",
+      allowPasswordChange: true
+    }
 
 
   const [loading, setLoading] = useState(true)
@@ -61,6 +59,10 @@ const Users = () => {
     setLoading(false)
   }
 
+  useEffect(() => {
+    handleGetUsers()
+  }, [])
+
   return (
     <>
       {
@@ -74,7 +76,12 @@ const Users = () => {
                       setUser(user)
                       setUserDetailOpen(true)
                     }}>
-                      <Grid item style={{ margin: "0.5rem", cursor: "pointer" }}>
+                    <Grid item style={{ margin: "0.5rem", cursor: "pointer" }}>
+                      <Avatar
+                        alt="avatar"
+                        src={user?.image.url}
+                        className={classes.avatar}
+                      />
                         <Typography
                           variant="body2"
                           component="p"

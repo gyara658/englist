@@ -6,6 +6,6 @@ export const getUser = (id) => {
   return client.get(`users/${id}`)
 }
 
-export const updateUser = (id | undefined | null, data) => {
+export const updateUser = (id , data) => {
   return client.put(`users/${id}`, data)
 }

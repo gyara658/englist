@@ -67,7 +67,7 @@ const SignIn = () => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history("/home");
+        history("/");
 
         console.log("Signed in successfully!")
       } else {
@@ -83,13 +83,13 @@ const SignIn = () => {
     <>
       <form noValidate autoComplete="off">
       <Card className={classes.card}>
-        <CardHeader className={classes.header} title="Sign In" />
+        <CardHeader className={classes.header} title="サインイン" />
           <CardContent>
           <TextField
             variant="outlined"
             required
             fullWidth
-            label="Email"
+            label="メールアドレス"
             value={email}
             margin="dense"
             onChange={event => setEmail(event.target.value)}
@@ -100,7 +100,7 @@ const SignIn = () => {
             fullWidth
             label="Password"
             type="password"
-            placeholder="At least 6 characters"
+            placeholder="最低6文字以上"
             value={password}
             margin="dense"
             autoComplete="current-password"
@@ -119,10 +119,11 @@ const SignIn = () => {
           </Box>
           <Box textAlign="center" className={classes.box}>
               <Typography variant="body2">
-                Don't have an account? &nbsp;
+              まだアカウントをお持ちでない方は
                 <Link to="/signup" className={classes.link}>
-                  Sign Up now!
+                  こちら
                 </Link>
+                から作成してください。
               </Typography>
             </Box>
           </CardContent>
@@ -132,7 +133,7 @@ const SignIn = () => {
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
-        message="Invalid emai or password"
+        message="メールアドレスかパスワードが間違っています"
       />
     </>
   );
