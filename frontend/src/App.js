@@ -91,19 +91,19 @@ const App = () => {
             setCurrentUser,
           }}
         >
-        <CommonLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="list/*" element={<List />} />
-              <Route path="list/ngsl" element={<Ngsl />} />
-              <Route path="list/nawl" element={<Nawl />} />
-              <Route path="list/tsl" element={<Tsl />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </CommonLayout>
-      </AuthContext.Provider>
+          <CommonLayout>
+            <Routes>
+              <Route path="/*" element={<List />} />
+                <Route path="/ngsl" element={<Ngsl />} />
+                <Route path="/nawl" element={<Nawl />} />
+                <Route path="/tsl" element={<Tsl />} />
+              <Route path="/user/:id" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </CommonLayout>
+        </AuthContext.Provider>
       </BrowserRouter>
     </>
   );

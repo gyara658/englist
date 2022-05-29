@@ -1,8 +1,7 @@
 import React, { useState, useReducer, useEffect } from 'react'
 import { Link }  from "react-router-dom"
-import "./TinderCards.css";
 
-import SwipeCard from "./SwipeCard"
+import FlipCard from "./FlipCard"
 
 import {
   initialState,
@@ -48,10 +47,9 @@ const Wordcard = (props) => {
   return (
     <>
       <h2>{wtype}ページ</h2>
-      <Link to="/list">・Listページに戻る</Link>
       { state.wordlist.length > 0 ?
-        <SwipeCard words={state.wordlist} />
-        :  <p>Now Loading! <br/> Please Wait a minute</p>
+       <FlipCard words={state.wordlist} />
+       :  <p>Now Loading! <br/> Please Wait a minute!!!</p>
       }
     </>
   )

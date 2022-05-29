@@ -65,25 +65,7 @@ const useStyles =makeStyles((theme: Theme) => ({
             <>
               <IconButton
                 component={Link}
-                to="/users"
-                edge="start"
-                className={classes.linkBtn}
-                color="inherit"
-              >
-                <SearchIcon />
-              </IconButton>
-              <IconButton
-                component={Link}
-                to="/chat_rooms"
-                edge="start"
-                className={classes.linkBtn}
-                color="inherit"
-              >
-                <ChatBubbleIcon />
-              </IconButton>
-              <IconButton
-                component={Link}
-                to="/home"
+                to="/user/:id"
                 edge="start"
                 className={classes.linkBtn}
                 color="inherit"
