@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Home = () => {
   const { isSignedIn, setIsSignedIn, currentUser, setCurrentUser } = useContext(AuthContext)
   const classes = useStyles()
-  const histroy = useNavigate()
+  const history = useNavigate()
 
   const [editFormOpen, setEditFormOpen] = useState(false)
   const [name, setName] = useState(currentUser)
@@ -90,11 +90,6 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // const data = {
-    //   name: name,
-    //   profile: profile,
-    //   image: image
-    // }
     const data = createFormData()
     console.log(data)
     try {
@@ -128,7 +123,7 @@ const Home = () => {
         Cookies.remove("_uid")
 
         setIsSignedIn(false)
-        histroy.push("/signin")
+        history("/")
 
         console.log("Succeeded in sign out")
       } else {
@@ -295,7 +290,6 @@ const Home = () => {
         <></>
       )
     }
-        <Link to="/list">List</Link>
     </>
   )
 }
