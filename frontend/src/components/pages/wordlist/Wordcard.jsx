@@ -1,7 +1,10 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { Link }  from "react-router-dom"
 
 import FlipCard from "./FlipCard"
+
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton'
 
 import {
   initialState,
@@ -16,7 +19,6 @@ const Wordcard = (props) => {
   const { wtype } = props
 
   const [state, dispatch] = useReducer(wordsReducer, initialState);
-  const [targetWord, setTargetWord] = useState()
 
   const GetEnglish = async () => {
     dispatch({type:wordsActionTypes.FETCHING})
@@ -34,22 +36,26 @@ const Wordcard = (props) => {
                 type.wordtype === wtype)
               })
             }
-          }),setTargetWord(state.wordlist)
+          })
         )
       }
   }
 
   useEffect(() => {
     GetEnglish()
-  }, [setTargetWord])
-
+  }, [])
 
   return (
     <>
       <h2>{wtype}ページ</h2>
-      { state.wordlist.length > 0 ?
-       <FlipCard words={state.wordlist} />
-       :  <p>Now Loading! <br/> Please Wait a minute!!!</p>
+      { state.fetchState === "LOADING" ?
+        <Box sx={{ width: 300 }}>
+          <Skeleton />
+          <Skeleton animation="wave" />
+          <Skeleton animation={false} />
+          <p>Now Loading! <br/> Please Wait a minute!!!</p>
+        </Box>
+       : <FlipCard words={state.wordlist} />
       }
     </>
   )

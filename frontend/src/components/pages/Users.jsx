@@ -18,6 +18,17 @@ import { getUsers } from "../../lib/api/users"
 import { AuthContext } from "../../App"
 
 
+const useStyles = makeStyles((theme: Theme) => ({
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10)
+  },
+  grid: {
+    justifyContent: "center"
+  }
+}))
+
+
 const Users = () => {
   const { currentUser } = useContext(AuthContext)
   const classes = useStyles()
@@ -68,7 +79,7 @@ const Users = () => {
       {
         !loading ? (
           users?.length > 0 ? (
-            <Grid container justify="center">
+            <Grid container className={classes.grid}>
               {
                 users?.map((user: User, index: number) => {
                   return (
@@ -115,7 +126,7 @@ const Users = () => {
         onClose={() => setUserDetailOpen(false)}
       >
         <DialogContent>
-          <Grid container justify="center">
+          <Grid container className={classes.grid}>
             <Grid item>
               <Avatar
                 alt="avatar"
@@ -123,7 +134,7 @@ const Users = () => {
               />
             </Grid>
           </Grid>
-          <Grid container justify="center">
+          <Grid container className={classes.grid}>
             <Grid item style={{ marginTop: "1rem" }}>
               <Typography variant="body1" component="p" gutterBottom style={{ textAlign: "center" }}>
                 {user.name})

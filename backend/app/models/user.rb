@@ -8,6 +8,6 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   mount_uploader :image, ImageUploader
-  
-  has_many :my_lists
+
+  has_many :lists
 end
