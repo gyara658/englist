@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Button from '@mui/material/Button';
@@ -8,9 +8,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { makeStyles, Theme } from "@material-ui/core/styles"
+import Alert from '@mui/material/Alert';
 
 import ReactCardFlip from 'react-card-flip';
 import { createMyLists } from "../../../lib/api/mylists"
+import { AuthContext } from "../../../App"
 
 const useStyles = makeStyles((theme: Theme) => ({
   stack: {
@@ -37,9 +39,15 @@ const FlipCard = (props) => {
   const {words} = props
   const classes = useStyles()
   const [count, setCount] = useState(0)
+  const { currentUser, isSignedIn } = useContext(AuthContext)
+  const [message, setMessage] = useState()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isListIn, setIsListIn] = useState([])
+  const [isAlert, setIsAlert] = useState()
+  const [disable, setDisable] = useState(false)
 
   const [isFlipped, setIsFlipped] = useState(false);
-  const [targetWord, setTargetWord] = useState(words)
+  const [targetWord] = useState(words)
   const [lists, setLists] = useState([])
 
   const flipCard = () => {
@@ -47,20 +55,57 @@ const FlipCard = (props) => {
   }
 
   useEffect(() => {
-    setTargetWord(words)
   }, [targetWord])
 
 
-  const handleSubmit = async (count) => {
-    count.preventDefault()
+  const handleSubmit = async (e) => {
+    e.stopPropagation()
 
-    const res = await createMyLists(count)
-    console.log(res)
+    const data = {
+      userId: currentUser?.id,
+      englishlistId: targetWord[count].id,
+      word: targetWord[count].word,
+      example: targetWord[count].example,
+      exampleMeaning: targetWord[count].exampleMeaning,
+      meaning: targetWord[count].meaning
+    }
 
-    if (res.status === 200) {
-      setLists([...lists,])
+    console.log(data)
+
+    try {
+      const res = await createMyLists(currentUser.id,data)
+      console.log(res)
+      console.log(res.data.list.englishlistId)
+
+      console.log(lists)
+
+      lists.map(list => (
+        setIsListIn([...isListIn,list.englishlistId])
+      ))
+
+      console.log(isListIn)
+      if (res.status === 200) {
+        if(isListIn.includes(res.data.list.englishlistId)) {
+          //もう追加されていることを知らせる処理
+          setIsAlert("warning")
+          setMessage("すでにマイリストに追加されています。")
+          setIsOpen(true)
+        } else {
+          setIsAlert("success")
+          setMessage("マイリストに追加しました。")
+          setIsOpen(true)
+          setLists([...lists,res.data.list])
+          console.log(res.data.list)
+        }
+      }
+    }
+    catch (err) {
+      console.log(err)
     }
   }
+
+  useEffect(() => {
+  }, [handleSubmit])
 
   const prevWord = () => {
     if (count > 0) {
@@ -73,6 +118,8 @@ const FlipCard = (props) => {
       setCount(count + 1)
     }
   }
+
+  setTimeout(() => {setIsOpen(false)}, 5000)
 
   return (
     <>
@@ -92,12 +139,12 @@ const FlipCard = (props) => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Click Here!!!</Button>
+                  <Button size="small">Click to the meaning of the word!!!</Button>
                 </CardActions>
               </Card>
             </div>
             <div className="back" onClick={flipCard}>
-              <Card sx={{ minWidth: 300,  minWidth: 780 }}>
+              <Card sx={{ minWidth: 300,  maxWidth: 780 }}>
                 <CardContent>
                   <p>・意味</p>
                     {targetWord[count].meaning}
@@ -106,7 +153,7 @@ const FlipCard = (props) => {
                   <p>・例文訳</p>
                     {targetWord[count].exampleMeaning}
                   <CardActions>
-                    <Button size="small">Click Here Return !!!</Button>
+                    <Button size="small">Click to Return !!!</Button>
                   </CardActions>
                 </CardContent>
               </Card>
@@ -118,11 +165,20 @@ const FlipCard = (props) => {
         <Stack direction="row" spacing={2} className={classes.stack}>
           <Button variant="outlined" onClick={() => prevWord(count)}>Prev Word!</Button>
           <Button variant="contained" onClick={() => nextWord(count)}>Next Word!</Button>
-          <ThemeProvider theme={theme}>
-            <Button variant="contained" color="neutral" onClick={() => handleSubmit(count)}>
-              Add My List
-            </Button>
-          </ThemeProvider>
+          {
+            isSignedIn?
+            <ThemeProvider theme={theme}>
+              <Button variant="contained" color="neutral" onClick={handleSubmit} >
+                Add My List
+              </Button>
+            </ThemeProvider> : ""
+          }
+        </Stack>
+
+        <Stack sx={{ width: '100%' }} direction="row" spacing={2} className={classes.stack}>
+          {isOpen ?
+            <Alert severity={isAlert}>{message}</Alert> : ""
+          }
         </Stack>
         <div className={classes.count}>
           ・勉強した単語数 :

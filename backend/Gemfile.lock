@@ -195,6 +195,7 @@ DEPENDENCIES
   devise_token_auth
   dotenv-rails
   listen (~> 3.2)
+  mini_magick
   mysql2 (>= 0.4.4)
   puma (~> 4.1)
   rack-cors

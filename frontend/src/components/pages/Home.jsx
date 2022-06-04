@@ -57,9 +57,9 @@ const Home = () => {
   const history = useNavigate()
 
   const [editFormOpen, setEditFormOpen] = useState(false)
-  const [name, setName] = useState(currentUser)
+  const [name, setName] = useState(currentUser?.name)
   const [profile, setProfile] = useState(currentUser?.profile)
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState(currentUser?.image)
   const [preview, setPreview] = useState("")
 
     // アップロードした画像の情報を取得
@@ -77,15 +77,15 @@ const Home = () => {
     const createFormData = () => {
       const formData = new FormData()
 
-      formData.append("name", name)
-      formData.append("profile", profile)
-      formData.append("image", image)
+      formData.append("name", name || "")
+      formData.append("profile", profile || "")
+      formData.append("image", image || "")
 
       return formData
   }
 
    console.log(currentUser)
-
+   console.log(name)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -141,7 +141,7 @@ const Home = () => {
         <>
           <Card className={classes.card}>
             <CardContent>
-              <Grid container justify="flex-end">
+              <Grid container justifyContent="flex-end">
                 <Grid item>
                   <IconButton
                     onClick={() => setEditFormOpen(true)}
@@ -153,7 +153,7 @@ const Home = () => {
                   </IconButton>
                 </Grid>
               </Grid>
-              <Grid container justify="center">
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Avatar
                     alt="avatar"
@@ -162,7 +162,7 @@ const Home = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container justify="center">
+              <Grid container justifyContent="center">
                 <Grid item style={{ marginTop: "1.5rem"}}>
                   <Typography variant="body1" component="p" gutterBottom>
                     {currentUser?.name}

@@ -14,6 +14,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import PersonIcon from "@material-ui/icons/Person"
 import SearchIcon from "@material-ui/icons/Search"
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble"
+import ListAltIcon from '@mui/icons-material/ListAlt'
 
 import { signOut } from "../../lib/api/auth"
 
@@ -63,6 +64,15 @@ const useStyles =makeStyles((theme: Theme) => ({
         if (isSignedIn) {
           return (
             <>
+              <IconButton
+                component={Link}
+                to="/user/:id/list"
+                edge="start"
+                className={classes.linkBtn}
+                color="inherit"
+              >
+                <ListAltIcon />
+              </IconButton>
               <IconButton
                 component={Link}
                 to="/user/:id"

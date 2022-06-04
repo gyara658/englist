@@ -11,6 +11,7 @@ import List from "./components/pages/wordlist/List"
 import Ngsl from "./components/pages/wordlist/Ngsl"
 import Nawl from "./components/pages/wordlist/Nawl"
 import Tsl from "./components/pages/wordlist/Tsl"
+import Mylist from "./components/pages/wordlist/Mylist"
 
 
 import { getCurrentUser } from "./lib/api/auth"
@@ -45,18 +46,6 @@ const App = () => {
   useEffect(() => {
     handleGetCurrentUser();
   }, [setCurrentUser]);
-
-  // const Private = ({ children }) => {
-  //   if (!loading) {
-  //     if (isSignedIn) {
-  //       return children;
-  //     } else {
-  //       return <Navigate to="/signin" />;
-  //     }
-  //   } else {
-  //     return <></>;
-  //   }
-  // };
 
   const Private = ({ children }) => {
     if (!loading) {
@@ -98,6 +87,7 @@ const App = () => {
                 <Route path="/nawl" element={<Nawl />} />
                 <Route path="/tsl" element={<Tsl />} />
               <Route path="/user/:id" element={<Home />} />
+              <Route path="/user/:id/list" element={<Mylist />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="*" element={<NotFound />} />
