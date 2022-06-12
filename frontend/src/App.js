@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import  CommonLayout  from "./components/layouts/CommonLayout"
 import Home from "./components/pages/Home"
@@ -15,13 +15,10 @@ import Mylist from "./components/pages/wordlist/Mylist"
 
 
 import { getCurrentUser } from "./lib/api/auth"
-import { execTest } from "./lib/api/test"
-
 
 export const AuthContext = createContext()
 
 const App = () => {
-  // const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState();
@@ -47,25 +44,6 @@ const App = () => {
     handleGetCurrentUser();
   }, [setCurrentUser]);
 
-  const Private = ({ children }) => {
-    if (!loading) {
-      if (isSignedIn) {
-        return (
-          <Route>
-            {children}
-          </Route>
-        )
-      } else {
-        return (
-          <Route>
-            <SignIn />
-          </Route>
-        )
-      }
-    } else {
-      return <></>;
-    }
-  };
 
   return (
     <>

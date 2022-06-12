@@ -9,11 +9,8 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import PersonIcon from "@material-ui/icons/Person"
-import SearchIcon from "@material-ui/icons/Search"
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble"
 import ListAltIcon from '@mui/icons-material/ListAlt'
 
 import { signOut } from "../../lib/api/auth"
